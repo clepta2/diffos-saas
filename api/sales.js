@@ -1,5 +1,5 @@
 // GET/POST /api/sales
-import { conn } from './db.js';
+import { supabase } from './db.js';
 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,24 +10,30 @@ export default async function handler(req, res) {
 
     try {
         if (req.method === 'GET') {
-            const result = await conn.execute('SELECT * FROM sales ORDER BY date DESC');
-            return res.status(200).json({ success: true, data: result.rows });
+            const { data, error } = await supabase
+                .from('sales')
+                .select('*')
+                .order('date', { ascending: false });
+
+            if (error) throw error;
+            return res.status(200).json({ success: true, data: data || [] });
         }
 
         if (req.method === 'POST') {
-            const { id, client, items, total, payment_method } = req.body;
+            const saleData = req.body;
 
-            if (!id || !client || !items || !total) {
+            if (!saleData.id || !saleData.client || !saleData.items || !saleData.total) {
                 return res.status(400).json({ success: false, error: 'Missing required fields' });
             }
 
-            await conn.execute(
-                'INSERT INTO sales (id, client, items, total, payment_method) VALUES (?, ?, ?, ?, ?)',
-                [id, client, items, total, payment_method || null]
-            );
+            const { data, error } = await supabase
+                .from('sales')
+                .insert([saleData])
+                .select()
+                .single();
 
-            const result = await conn.execute('SELECT * FROM sales WHERE id = ?', [id]);
-            return res.status(201).json({ success: true, data: result.rows[0] });
+            if (error) throw error;
+            return res.status(201).json({ success: true, data });
         }
 
         return res.status(405).json({ success: false, error: 'Method not allowed' });

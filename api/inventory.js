@@ -1,5 +1,5 @@
 // GET/POST /api/inventory
-import { conn } from './db.js';
+import { supabase } from './db.js';
 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,24 +10,30 @@ export default async function handler(req, res) {
 
     try {
         if (req.method === 'GET') {
-            const result = await conn.execute('SELECT * FROM inventory ORDER BY name ASC');
-            return res.status(200).json({ success: true, data: result.rows });
+            const { data, error } = await supabase
+                .from('inventory')
+                .select('*')
+                .order('name', { ascending: true });
+
+            if (error) throw error;
+            return res.status(200).json({ success: true, data: data || [] });
         }
 
         if (req.method === 'POST') {
-            const { id, name, category, quantity, price } = req.body;
+            const itemData = req.body;
 
-            if (!id || !name) {
+            if (!itemData.id || !itemData.name) {
                 return res.status(400).json({ success: false, error: 'Missing required fields: id, name' });
             }
 
-            await conn.execute(
-                'INSERT INTO inventory (id, name, category, quantity, price) VALUES (?, ?, ?, ?, ?)',
-                [id, name, category || null, quantity || 0, price || 0]
-            );
+            const { data, error } = await supabase
+                .from('inventory')
+                .insert([itemData])
+                .select()
+                .single();
 
-            const result = await conn.execute('SELECT * FROM inventory WHERE id = ?', [id]);
-            return res.status(201).json({ success: true, data: result.rows[0] });
+            if (error) throw error;
+            return res.status(201).json({ success: true, data });
         }
 
         return res.status(405).json({ success: false, error: 'Method not allowed' });

@@ -1,5 +1,5 @@
 // GET/POST /api/expenses
-import { conn } from './db.js';
+import { supabase } from './db.js';
 
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -10,26 +10,30 @@ export default async function handler(req, res) {
 
     try {
         if (req.method === 'GET') {
-            const result = await conn.execute('SELECT * FROM expenses ORDER BY date DESC');
-            return res.status(200).json({ success: true, data: result.rows });
+            const { data, error } = await supabase
+                .from('expenses')
+                .select('*')
+                .order('date', { ascending: false });
+
+            if (error) throw error;
+            return res.status(200).json({ success: true, data: data || [] });
         }
 
         if (req.method === 'POST') {
-            const { id, description, category, amount, date } = req.body;
+            const expenseData = req.body;
 
-            if (!id || !description || !amount) {
+            if (!expenseData.id || !expenseData.description || !expenseData.amount) {
                 return res.status(400).json({ success: false, error: 'Missing required fields: id, description, amount' });
             }
 
-            const expenseDate = date || new Date().toISOString().split('T')[0];
+            const { data, error } = await supabase
+                .from('expenses')
+                .insert([expenseData])
+                .select()
+                .single();
 
-            await conn.execute(
-                'INSERT INTO expenses (id, description, category, amount, date) VALUES (?, ?, ?, ?, ?)',
-                [id, description, category || null, amount, expenseDate]
-            );
-
-            const result = await conn.execute('SELECT * FROM expenses WHERE id = ?', [id]);
-            return res.status(201).json({ success: true, data: result.rows[0] });
+            if (error) throw error;
+            return res.status(201).json({ success: true, data });
         }
 
         return res.status(405).json({ success: false, error: 'Method not allowed' });

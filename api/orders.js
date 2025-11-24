@@ -1,5 +1,5 @@
 // GET /api/orders - List all service orders
-import { conn } from './db.js';
+import { supabase } from './db.js';
 
 export default async function handler(req, res) {
     // Enable CORS
@@ -15,85 +15,55 @@ export default async function handler(req, res) {
         if (req.method === 'GET') {
             const { status, search } = req.query;
 
-            let query = 'SELECT * FROM service_orders';
-            const conditions = [];
-            const params = [];
+            let query = supabase
+                .from('service_orders')
+                .select('*');
 
+            // Filter by status
             if (status && status !== 'all') {
-                conditions.push('status = ?');
-                params.push(status);
+                query = query.eq('status', status);
             }
 
+            // Search filter
             if (search) {
-                conditions.push('(client LIKE ? OR id LIKE ? OR device LIKE ?)');
-                const searchTerm = `%${search}%`;
-                params.push(searchTerm, searchTerm, searchTerm);
+                query = query.or(`client.ilike.%${search}%,id.ilike.%${search}%,device.ilike.%${search}%`);
             }
 
-            if (conditions.length > 0) {
-                query += ' WHERE ' + conditions.join(' AND ');
-            }
+            // Order by date
+            query = query.order('created_at', { ascending: false });
 
-            query += ' ORDER BY created_at DESC';
+            const { data, error } = await query;
 
-            const result = await conn.execute(query, params);
+            if (error) throw error;
 
             return res.status(200).json({
                 success: true,
-                data: result.rows
+                data: data || []
             });
         }
 
         if (req.method === 'POST') {
-            const {
-                id,
-                client,
-                subject,
-                device,
-                brand,
-                model,
-                serial,
-                imei,
-                color,
-                capacity,
-                pattern_code,
-                services,
-                observations,
-                chip,
-                deadline,
-                status = 'open'
-            } = req.body;
+            const orderData = req.body;
 
-            if (!id || !client || !subject) {
+            // Validate required fields
+            if (!orderData.id || !orderData.client || !orderData.subject) {
                 return res.status(400).json({
                     success: false,
                     error: 'Missing required fields: id, client, subject'
                 });
             }
 
-            const result = await conn.execute(
-                `INSERT INTO service_orders (
-          id, client, subject, device, brand, model, serial, imei,
-          color, capacity, pattern_code, services, observations,
-          chip, deadline, status
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-                [
-                    id, client, subject, device || null, brand || null,
-                    model || null, serial || null, imei || null, color || null,
-                    capacity || null, pattern_code || null, services || null,
-                    observations || null, chip || null, deadline || null, status
-                ]
-            );
+            const { data, error } = await supabase
+                .from('service_orders')
+                .insert([orderData])
+                .select()
+                .single();
 
-            // Get the inserted record
-            const inserted = await conn.execute(
-                'SELECT * FROM service_orders WHERE id = ?',
-                [id]
-            );
+            if (error) throw error;
 
             return res.status(201).json({
                 success: true,
-                data: inserted.rows[0]
+                data
             });
         }
 

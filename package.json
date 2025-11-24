@@ -6,7 +6,7 @@
         "start": "serve ."
     },
     "dependencies": {
-        "@planetscale/database": "^1.11.0"
+        "@supabase/supabase-js": "^2.39.0"
     },
     "devDependencies": {
         "serve": "^14.2.1"
