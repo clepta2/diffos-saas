@@ -1,13 +1,20 @@
-// Database connection helper
-import { sql } from '@vercel/postgres';
+// Database connection helper for PlanetScale
+import { connect } from '@planetscale/database';
 
-export { sql };
+// Create connection
+const config = {
+  host: process.env.DATABASE_HOST,
+  username: process.env.DATABASE_USERNAME,
+  password: process.env.DATABASE_PASSWORD,
+};
+
+export const conn = connect(config);
 
 // Initialize database tables
 export async function initDB() {
-    try {
-        // Service Orders Table
-        await sql`
+  try {
+    // Service Orders Table
+    await conn.execute(`
       CREATE TABLE IF NOT EXISTS service_orders (
         id VARCHAR(50) PRIMARY KEY,
         client VARCHAR(255) NOT NULL,
@@ -27,12 +34,12 @@ export async function initDB() {
         status VARCHAR(50) DEFAULT 'open',
         date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       )
-    `;
+    `);
 
-        // Clients Table
-        await sql`
+    // Clients Table
+    await conn.execute(`
       CREATE TABLE IF NOT EXISTS clients (
         id VARCHAR(50) PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
@@ -41,12 +48,12 @@ export async function initDB() {
         company VARCHAR(255),
         address TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       )
-    `;
+    `);
 
-        // Sales Table
-        await sql`
+    // Sales Table
+    await conn.execute(`
       CREATE TABLE IF NOT EXISTS sales (
         id VARCHAR(50) PRIMARY KEY,
         client VARCHAR(255) NOT NULL,
@@ -56,10 +63,10 @@ export async function initDB() {
         date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
-    `;
+    `);
 
-        // Invoices Table
-        await sql`
+    // Invoices Table
+    await conn.execute(`
       CREATE TABLE IF NOT EXISTS invoices (
         id VARCHAR(50) PRIMARY KEY,
         client VARCHAR(255) NOT NULL,
@@ -68,25 +75,25 @@ export async function initDB() {
         issue_date DATE,
         due_date DATE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       )
-    `;
+    `);
 
-        // Inventory Table
-        await sql`
+    // Inventory Table
+    await conn.execute(`
       CREATE TABLE IF NOT EXISTS inventory (
         id VARCHAR(50) PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         category VARCHAR(100),
-        quantity INTEGER DEFAULT 0,
+        quantity INT DEFAULT 0,
         price DECIMAL(10, 2),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       )
-    `;
+    `);
 
-        // Expenses Table
-        await sql`
+    // Expenses Table
+    await conn.execute(`
       CREATE TABLE IF NOT EXISTS expenses (
         id VARCHAR(50) PRIMARY KEY,
         description VARCHAR(255) NOT NULL,
@@ -95,11 +102,11 @@ export async function initDB() {
         date DATE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
-    `;
+    `);
 
-        return { success: true };
-    } catch (error) {
-        console.error('Database initialization error:', error);
-        return { success: false, error: error.message };
-    }
+    return { success: true };
+  } catch (error) {
+    console.error('Database initialization error:', error);
+    return { success: false, error: error.message };
+  }
 }

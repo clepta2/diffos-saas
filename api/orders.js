@@ -1,5 +1,5 @@
 // GET /api/orders - List all service orders
-import { sql } from '@vercel/postgres';
+import { conn } from './db.js';
 
 export default async function handler(req, res) {
     // Enable CORS
@@ -13,21 +13,21 @@ export default async function handler(req, res) {
 
     try {
         if (req.method === 'GET') {
-            // Get query parameters for filtering
             const { status, search } = req.query;
 
             let query = 'SELECT * FROM service_orders';
             const conditions = [];
-            const values = [];
+            const params = [];
 
             if (status && status !== 'all') {
-                conditions.push(`status = $${conditions.length + 1}`);
-                values.push(status);
+                conditions.push('status = ?');
+                params.push(status);
             }
 
             if (search) {
-                conditions.push(`(client ILIKE $${conditions.length + 1} OR id ILIKE $${conditions.length + 1} OR device ILIKE $${conditions.length + 1})`);
-                values.push(`%${search}%`);
+                conditions.push('(client LIKE ? OR id LIKE ? OR device LIKE ?)');
+                const searchTerm = `%${search}%`;
+                params.push(searchTerm, searchTerm, searchTerm);
             }
 
             if (conditions.length > 0) {
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
 
             query += ' ORDER BY created_at DESC';
 
-            const result = await sql.query(query, values);
+            const result = await conn.execute(query, params);
 
             return res.status(200).json({
                 success: true,
@@ -64,7 +64,6 @@ export default async function handler(req, res) {
                 status = 'open'
             } = req.body;
 
-            // Validate required fields
             if (!id || !client || !subject) {
                 return res.status(400).json({
                     success: false,
@@ -72,23 +71,29 @@ export default async function handler(req, res) {
                 });
             }
 
-            const result = await sql`
-        INSERT INTO service_orders (
+            const result = await conn.execute(
+                `INSERT INTO service_orders (
           id, client, subject, device, brand, model, serial, imei,
           color, capacity, pattern_code, services, observations,
           chip, deadline, status
-        ) VALUES (
-          ${id}, ${client}, ${subject}, ${device || null}, ${brand || null},
-          ${model || null}, ${serial || null}, ${imei || null}, ${color || null},
-          ${capacity || null}, ${pattern_code || null}, ${services || null},
-          ${observations || null}, ${chip || null}, ${deadline || null}, ${status}
-        )
-        RETURNING *
-      `;
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                [
+                    id, client, subject, device || null, brand || null,
+                    model || null, serial || null, imei || null, color || null,
+                    capacity || null, pattern_code || null, services || null,
+                    observations || null, chip || null, deadline || null, status
+                ]
+            );
+
+            // Get the inserted record
+            const inserted = await conn.execute(
+                'SELECT * FROM service_orders WHERE id = ?',
+                [id]
+            );
 
             return res.status(201).json({
                 success: true,
-                data: result.rows[0]
+                data: inserted.rows[0]
             });
         }
 

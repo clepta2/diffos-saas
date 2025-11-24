@@ -1,5 +1,5 @@
 // PUT/DELETE /api/orders/[id] - Update or delete a specific order
-import { sql } from '@vercel/postgres';
+import { conn } from '../db.js';
 
 export default async function handler(req, res) {
     // Enable CORS
@@ -22,9 +22,10 @@ export default async function handler(req, res) {
 
     try {
         if (req.method === 'GET') {
-            const result = await sql`
-        SELECT * FROM service_orders WHERE id = ${id}
-      `;
+            const result = await conn.execute(
+                'SELECT * FROM service_orders WHERE id = ?',
+                [id]
+            );
 
             if (result.rows.length === 0) {
                 return res.status(404).json({
@@ -42,7 +43,6 @@ export default async function handler(req, res) {
         if (req.method === 'PUT') {
             const updates = req.body;
 
-            // Build dynamic update query
             const allowedFields = [
                 'client', 'subject', 'device', 'brand', 'model', 'serial',
                 'imei', 'color', 'capacity', 'pattern_code', 'services',
@@ -51,13 +51,11 @@ export default async function handler(req, res) {
 
             const setClause = [];
             const values = [];
-            let paramIndex = 1;
 
             for (const [key, value] of Object.entries(updates)) {
                 if (allowedFields.includes(key)) {
-                    setClause.push(`${key} = $${paramIndex}`);
+                    setClause.push(`${key} = ?`);
                     values.push(value);
-                    paramIndex++;
                 }
             }
 
@@ -68,18 +66,21 @@ export default async function handler(req, res) {
                 });
             }
 
-            // Add updated_at
-            setClause.push(`updated_at = CURRENT_TIMESTAMP`);
             values.push(id);
 
             const query = `
         UPDATE service_orders
         SET ${setClause.join(', ')}
-        WHERE id = $${paramIndex}
-        RETURNING *
+        WHERE id = ?
       `;
 
-            const result = await sql.query(query, values);
+            await conn.execute(query, values);
+
+            // Get updated record
+            const result = await conn.execute(
+                'SELECT * FROM service_orders WHERE id = ?',
+                [id]
+            );
 
             if (result.rows.length === 0) {
                 return res.status(404).json({
@@ -95,22 +96,28 @@ export default async function handler(req, res) {
         }
 
         if (req.method === 'DELETE') {
-            const result = await sql`
-        DELETE FROM service_orders WHERE id = ${id}
-        RETURNING *
-      `;
+            // Get record before deleting
+            const getResult = await conn.execute(
+                'SELECT * FROM service_orders WHERE id = ?',
+                [id]
+            );
 
-            if (result.rows.length === 0) {
+            if (getResult.rows.length === 0) {
                 return res.status(404).json({
                     success: false,
                     error: 'Order not found'
                 });
             }
 
+            await conn.execute(
+                'DELETE FROM service_orders WHERE id = ?',
+                [id]
+            );
+
             return res.status(200).json({
                 success: true,
                 message: 'Order deleted successfully',
-                data: result.rows[0]
+                data: getResult.rows[0]
             });
         }
 

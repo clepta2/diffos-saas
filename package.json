@@ -6,7 +6,7 @@
         "start": "serve ."
     },
     "dependencies": {
-        "@vercel/postgres": "^0.5.0"
+        "@planetscale/database": "^1.11.0"
     },
     "devDependencies": {
         "serve": "^14.2.1"
