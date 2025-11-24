@@ -703,7 +703,7 @@ const langSelector = document.getElementById('language-selector');
 const themeToggle = document.getElementById('theme-toggle');
 const themeIcon = themeToggle.querySelector('.icon');
 const notificationBtn = document.getElementById('notification-btn');
-const navItems = document.querySelectorAll('.nav-item');
+const navItems = document.querySelectorAll('.nav-link');
 const views = document.querySelectorAll('.view-section');
 const pageTitle = document.getElementById('page-title');
 const searchInput = document.getElementById('global-search');
@@ -870,7 +870,7 @@ function setupEventListeners() {
     navItems.forEach(item => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
-            const target = item.getAttribute('data-target');
+            const target = item.getAttribute('data-view');
 
             // Update Active State
             navItems.forEach(nav => nav.classList.remove('active'));
@@ -878,13 +878,18 @@ function setupEventListeners() {
 
             // Show View
             views.forEach(view => view.classList.add('hidden'));
-            document.getElementById(`view-${target}`).classList.remove('hidden');
-            document.getElementById(`view-${target}`).classList.add('fade-in');
+            const viewEl = document.getElementById(`view-${target}`);
+            if (viewEl) {
+                viewEl.classList.remove('hidden');
+                viewEl.classList.add('fade-in');
+            }
 
-            // Update Title
-            const t = translations[currentLang];
-            pageTitle.textContent = t[target] || target;
-            pageTitle.setAttribute('data-i18n', target);
+            // Update Title (if pageTitle exists, though it might not be in DOM)
+            if (typeof pageTitle !== 'undefined' && pageTitle) {
+                const t = translations[currentLang];
+                pageTitle.textContent = t[target] || target;
+                pageTitle.setAttribute('data-i18n', target);
+            }
         });
     });
 
