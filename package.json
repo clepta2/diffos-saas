@@ -1,0 +1,14 @@
+{
+    "name": "diffos-saas",
+    "version": "1.0.0",
+    "description": "TechAssist SaaS Dashboard",
+    "scripts": {
+        "start": "serve ."
+    },
+    "dependencies": {
+        "@vercel/postgres": "^0.5.0"
+    },
+    "devDependencies": {
+        "serve": "^14.2.1"
+    }
+}
