@@ -754,10 +754,7 @@ const valDiscount = document.getElementById('val-discount');
 const valTotal = document.getElementById('val-total');
 
 // Initialize
-function init() {
-    // Load Data
-    loadData();
-
+async function init() {
     // Set initial language
     langSelector.value = currentLang;
     updateLanguage(currentLang);
@@ -774,6 +771,9 @@ function init() {
     if (localStorage.getItem('loggedIn') === 'true') {
         loginScreen.classList.add('hidden');
         appMain.classList.remove('hidden');
+
+        // Load Data from API
+        await loadData();
 
         // Initialize App Data
         updateStats();
@@ -1501,20 +1501,43 @@ function showToast(title, message) {
 }
 
 // Data Persistence
-function loadData() {
-    const storedOrders = localStorage.getItem('serviceOrders');
-    const storedClients = localStorage.getItem('clients');
-    const storedSales = localStorage.getItem('sales');
-    const storedInvoices = localStorage.getItem('invoices');
-    const storedInventory = localStorage.getItem('inventory');
-    const storedExpenses = localStorage.getItem('expenses');
+async function loadData() {
+    try {
+        const [
+            ordersData,
+            clientsData,
+            salesData,
+            invoicesData,
+            inventoryData,
+            expensesData
+        ] = await Promise.all([
+            window.api.getOrders(),
+            window.api.getClients(),
+            window.api.getSales(),
+            // Invoices not yet implemented in API fully, using empty array or mock
+            Promise.resolve({ data: [] }),
+            window.api.getInventory(),
+            window.api.getExpenses()
+        ]);
 
-    serviceOrders = storedOrders ? JSON.parse(storedOrders) : defaultServiceOrders;
-    clients = storedClients ? JSON.parse(storedClients) : defaultClients;
-    sales = storedSales ? JSON.parse(storedSales) : defaultSales;
-    invoices = storedInvoices ? JSON.parse(storedInvoices) : defaultInvoices;
-    inventory = storedInventory ? JSON.parse(storedInventory) : defaultInventory;
-    expenses = storedExpenses ? JSON.parse(storedExpenses) : defaultExpenses;
+        serviceOrders = ordersData.data || [];
+        clients = clientsData.data || [];
+        sales = salesData.data || [];
+        invoices = invoicesData.data || [];
+        inventory = inventoryData.data || [];
+        expenses = expensesData.data || [];
+
+        console.log('Data loaded successfully from API');
+    } catch (error) {
+        console.error('Error loading data:', error);
+        // Fallback to empty arrays or defaults if API fails
+        serviceOrders = defaultServiceOrders;
+        clients = defaultClients;
+        sales = defaultSales;
+        invoices = defaultInvoices;
+        inventory = defaultInventory;
+        expenses = defaultExpenses;
+    }
 }
 
 function saveData() {
