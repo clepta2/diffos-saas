@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechAssist | Diffos Tech Dashboard</title>
+    <title>TechAssist - Sistema de Gestão</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,8 +17,6 @@
     <link rel="stylesheet" href="auth.css">
     <link rel="stylesheet" href="pricing.css">
     <link rel="stylesheet" href="trial-system.css">
-    <link rel="stylesheet" href="improvements.css">
-    <link rel="stylesheet" href="layout-fix.css">
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1042,204 +1040,25 @@
                                             <span id="sale-total-display">R$ 0,00</span>
                                         </div>
                                     </div>
-                            </div>
-
-                            <div class="payment-section">
-                                <div class="total-display">
-                                    <span>Total:</span>
-                                    <span id="sale-total-display">R$ 0,00</span>
-                                </div>
-                            </div>
-
-                            <button type="submit" class="primary-btn full-width success-btn">Finalizar Venda</button>
-            </form>
-        </div>
-    </div>
-
-    </div>
-
-    <button class="primary-btn full-width featured" onclick="selectPlan('professional')">Começar
-        Agora</button>
-    <p class="trial-info">7 dias grátis • Sem cartão</p>
-
-    <ul class="plan-features">
-        <li><strong>3</strong> Usuários</li>
-        <li><strong>200</strong> OS por mês</li>
-        <li><strong>500</strong> Clientes</li>
-        <li>API Access</li>
-        <li>Suporte Prioritário</li>
-    </ul>
-    </div>
-
-    <!-- Business Plan -->
-    <div class="pricing-card clay-card">
-        <div class="plan-icon">🏢</div>
-        <h3>Business</h3>
-        <p class="plan-description">Para empresas estabelecidas.</p>
-
-        <div class="plan-price">
-            <span class="currency">R$</span>
-            <span class="amount" data-monthly="199,90" data-annual="119,90">199,90</span>
-            <span class="period">/mês</span>
-        </div>
-
-        <button class="primary-btn full-width" onclick="selectPlan('business')">Começar
-            Agora</button>
-
-        <ul class="plan-features">
-            <li><strong>10</strong> Usuários</li>
-            <li><strong>1.000</strong> OS por mês</li>
-            <li><strong>2.000</strong> Clientes</li>
-            <li>White Label</li>
-            <li>Relatórios BI</li>
-        </ul>
-    </div>
-    </div>
-    </div>
-    </section>
-
-    <!-- SETTINGS VIEW -->
-    <section id="view-settings" class="view-section hidden">
-        <div class="settings-container">
-            <div class="clay-card settings-card">
-                <h3 data-i18n="profileSettings">Profile Settings</h3>
-                <form class="settings-form">
-                    <div class="form-group">
-                        <label data-i18n="fullName">Full Name</label>
-                        <input type="text" class="clay-input" value="John Doe">
-                    </div>
-                    <div class="form-group">
-                        <label data-i18n="email">Email</label>
-                        <input type="email" class="clay-input" value="john@techassist.com">
-                    </div>
-                    <button type="button" class="primary-btn" data-i18n="saveChanges">Save Changes</button>
-                </form>
-            </div>
-
-            <div class="clay-card settings-card">
-                <h3 data-i18n="appSettings">App Settings</h3>
-                <div class="setting-item">
-                    <div class="setting-info">
-                        <h4 data-i18n="emailNotifications">Email Notifications</h4>
-                        <p data-i18n="emailNotifDesc">Receive emails about new tickets.</p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider round"></span>
-                    </label>
-                </div>
-                <div class="setting-item">
-                    <div class="setting-info">
-                        <h4 data-i18n="autoRefresh">Auto Refresh</h4>
-                        <p data-i18n="autoRefreshDesc">Automatically refresh dashboard data.</p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
-            </div>
-        </div>
-    </section>
-    </main>
-    </div>
-
-    <!-- MODALS -->
-
-    <!-- New Order Modal -->
-    <div id="new-order-modal" class="modal hidden">
-        <div class="modal-content clay-card large-modal">
-            <span class="close-btn">&times;</span>
-            <h2 data-i18n="createNewOrder">Create New Order</h2>
-            <form id="new-order-form" class="scrollable-form">
-                <!-- Sections for Order Form -->
-                <div class="form-section">
-                    <h3>Client Information</h3>
-                    <div class="grid-2">
-                        <div class="form-group">
-                            <label>Client Name</label>
-                            <input type="text" class="clay-input" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Phone</label>
-                            <input type="tel" class="clay-input" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-section">
-                    <h3>Device Details</h3>
-                    <div class="grid-2">
-                        <div class="form-group">
-                            <label>Device Type</label>
-                            <select class="clay-select">
-                                <option value="smartphone">Smartphone</option>
-                                <option value="laptop">Laptop</option>
-                                <option value="tablet">Tablet</option>
-                                <option value="console">Console</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Model</label>
-                            <input type="text" class="clay-input" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-
-                        <!-- Sale Modal -->
-                        <div id="sale-modal" class="modal hidden">
-                            <div class="modal-content clay-card large-modal">
-                                <span class="close-btn" id="close-sale-modal">&times;</span>
-                                <h2>Nova Venda</h2>
-                                <form id="new-sale-form" class="scrollable-form">
-                                    <div class="grid-2">
-                                        <div class="form-group">
-                                            <label>Cliente</label>
-                                            <select id="sale-client-select" class="clay-select">
-                                                <option value="">Selecione um cliente...</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Data</label>
-                                            <input type="date" id="sale-date" class="clay-input" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="products-section">
-                                        <h3>Produtos</h3>
-                                        <div class="add-product-row">
-                                            <select id="sale-product-select" class="clay-select">
-                                                <option value="">Adicionar produto...</option>
-                                            </select>
-                                            <input type="number" id="sale-quantity" class="clay-input" value="1" min="1"
-                                                style="width: 80px;">
-                                            <button type="button" id="add-product-btn"
-                                                class="primary-btn small">Adicionar</button>
-                                        </div>
-
-                                        <table class="clay-table small-table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Produto</th>
-                                                    <th>Qtd</th>
-                                                    <th>Preço</th>
-                                                    <th>Total</th>
-                                                    <th>Ação</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="sale-products-list"></tbody>
-                                        </table>
-                                    </div>
-
-                                    <div class="payment-section">
-                                        <div class="total-display">
-                                            <span>Total:</span>
-                                            <span id="sale-total-display">R$ 0,00</span>
-                                        </div>
-                                    </div>
 
                                     <button type="submit" class="primary-btn full-width success-btn">Finalizar
                                         Venda</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Toast Notification -->
+                        <div id="toast" class="toast hidden">
+                            <span id="toast-message">Notification</span>
+                        </div>
+
+                        <!-- Scripts -->
+                        <script src="auth.js"></script>
+                        <script src="trial-system.js"></script>
+                        <script src="pricing.js"></script>
+                        <script src="improvements.js"></script>
+                        <script src="advanced-features.js"></script>
+                        <script src="script.js"></script>
 </body>
 
 </html>
