@@ -1615,5 +1615,77 @@ function viewDetails(type, id) {
     detailsModal.classList.remove('hidden');
 }
 
+// ============================================
+// 🛠️ MISSING FUNCTIONS & FIXES
+// ============================================
+
+function renderOrdersTable(filterTerm = '') {
+    const tbody = document.getElementById('orders-full-table-body');
+    if (!tbody) return;
+
+    tbody.innerHTML = '';
+    const t = translations[currentLang];
+
+    let filteredOrders = serviceOrders;
+
+    // Filter by Search Term
+    if (filterTerm) {
+        filteredOrders = filteredOrders.filter(o =>
+            o.client.toLowerCase().includes(filterTerm) ||
+            o.id.toLowerCase().includes(filterTerm) ||
+            o.device.toLowerCase().includes(filterTerm)
+        );
+    }
+
+    // Filter by Status Tab
+    if (currentFilter !== 'all') {
+        filteredOrders = filteredOrders.filter(o => o.status === currentFilter);
+    }
+
+    // Sort by Date (Newest First)
+    filteredOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    filteredOrders.forEach(order => {
+        const tr = document.createElement('tr');
+        const statusLabel = t[`status_${order.status}`] || order.status;
+
+        tr.innerHTML = `
+            <td>${order.id}</td>
+            <td>
+                <div style="font-weight:bold;">${order.subject}</div>
+                <div style="font-size:0.85em; color:var(--text-secondary);">${order.device}</div>
+            </td>
+            <td>${order.client}</td>
+            <td><span class="status-chip status-${order.status}">${statusLabel}</span></td>
+            <td>
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="viewDetails('order', '${order.id}')" title="${t.details}">👁️</button>
+                    <button class="action-btn" onclick="printOrder('${order.id}', 'a4')" title="Print A4">🖨️ A4</button>
+                    <button class="action-btn" onclick="printOrder('${order.id}', 'thermal')" title="Print Thermal">🧾 80mm</button>
+                    <button class="action-btn delete-btn" onclick="deleteOrder('${order.id}')" title="${t.deleted}">🗑️</button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+// Initialize Pattern Lock when modal opens
+// Note: We use a timeout to ensure DOM is ready if called immediately
+document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('new-order-btn');
+    if (btn) {
+        btn.addEventListener('click', () => {
+            if (!window.patternLockInstance && window.PatternLock) {
+                setTimeout(() => {
+                    window.patternLockInstance = new PatternLock('pattern-lock-container', 'pattern-code');
+                }, 100);
+            } else if (window.patternLockInstance) {
+                window.patternLockInstance.clear();
+            }
+        });
+    }
+});
+
 // Run
 init();

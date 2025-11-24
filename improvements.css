@@ -1,0 +1,216 @@
+/* ============================================ */
+/* 🖨️ PRINT STYLES (Impressão)                */
+/* ============================================ */
+
+@media print {
+
+    /* Esconder tudo que não é imprimível */
+    body * {
+        visibility: hidden;
+    }
+
+    /* Mostrar apenas a área de impressão */
+    #print-area,
+    #print-area * {
+        visibility: visible;
+    }
+
+    #print-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 20px;
+        background: white;
+        color: black;
+    }
+
+    /* Resetar estilos de fundo para economizar tinta */
+    .clay-card,
+    .sidebar,
+    .top-bar {
+        box-shadow: none !important;
+        background: white !important;
+        border: 1px solid #ddd !important;
+    }
+
+    /* Layout A4 */
+    .print-a4 {
+        width: 210mm;
+        min-height: 297mm;
+        padding: 20mm;
+        margin: 0 auto;
+        border: 1px solid #eee;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .print-header {
+        text-align: center;
+        margin-bottom: 30px;
+        border-bottom: 2px solid #000;
+        padding-bottom: 20px;
+    }
+
+    .print-logo h1 {
+        font-size: 24pt;
+        margin: 0;
+    }
+
+    .print-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .print-section {
+        margin-bottom: 20px;
+    }
+
+    .print-section h3 {
+        border-bottom: 1px solid #999;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+        font-size: 14pt;
+    }
+
+    .print-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .print-table th,
+    .print-table td {
+        border: 1px solid #999;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .print-footer {
+        margin-top: 50px;
+        text-align: center;
+        font-size: 10pt;
+        border-top: 1px dashed #999;
+        padding-top: 20px;
+    }
+
+    .signature-line {
+        margin-top: 50px;
+        border-top: 1px solid #000;
+        width: 60%;
+        margin-left: auto;
+        margin-right: auto;
+        padding-top: 5px;
+    }
+
+    /* Layout Térmico (80mm) */
+    .print-thermal {
+        width: 80mm;
+        padding: 5mm;
+        font-family: 'Courier New', monospace;
+        font-size: 12px;
+    }
+
+    .print-thermal .print-header {
+        border-bottom: 1px dashed #000;
+    }
+
+    .print-thermal .print-info {
+        flex-direction: column;
+    }
+}
+
+/* ============================================ */
+/* 📱 PATTERN LOCK (Senha de Desenho)          */
+/* ============================================ */
+
+.pattern-lock-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-secondary);
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 10px;
+}
+
+.pattern-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    position: relative;
+    padding: 10px;
+    touch-action: none;
+    /* Importante para mobile */
+}
+
+.pattern-dot {
+    width: 20px;
+    height: 20px;
+    background: var(--text-secondary);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    z-index: 2;
+}
+
+.pattern-dot.active {
+    background: var(--primary);
+    transform: scale(1.5);
+    box-shadow: 0 0 15px var(--primary);
+}
+
+.pattern-dot:hover {
+    background: var(--primary);
+    opacity: 0.7;
+}
+
+/* Canvas para desenhar as linhas */
+#pattern-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.pattern-actions {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+/* ============================================ */
+/* 📱 MOBILE IMPROVEMENTS                      */
+/* ============================================ */
+
+@media (max-width: 768px) {
+
+    /* Tabelas com scroll horizontal */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Modais full screen em mobile */
+    .modal-content.large-modal {
+        width: 100%;
+        height: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+        padding: 20px;
+    }
+
+    /* Ajuste de grids */
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Sidebar flutuante (hamburger menu) - Futuro */
+}
