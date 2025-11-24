@@ -1,0 +1,283 @@
+<!-- ============================================ -->
+<!-- 💎 PRICING PAGE - Sistema de Planos         -->
+<!-- ============================================ -->
+<section id="view-pricing" class="view-section hidden">
+    <div class="pricing-container">
+        <!-- Header -->
+        <div class="pricing-header">
+            <h1>Escolha o Plano Perfeito para Você</h1>
+            <p class="subtitle">Sem surpresas. Cancele quando quiser. 30 dias de garantia.</p>
+            
+            <!-- Toggle de período -->
+            <div class="billing-toggle">
+                <span class="toggle-label">Mensal</span>
+                <label class="switch">
+                    <input type="checkbox" id="billing-period-toggle">
+                    <span class="slider round"></span>
+                </label>
+                <span class="toggle-label">Anual <span class="badge">-40%</span></span>
+            </div>
+        </div>
+
+        <!-- Pricing Grid -->
+        <div class="pricing-grid">
+            <!-- STARTER PLAN -->
+            <div class="pricing-card clay-card" data-plan="starter">
+                <div class="plan-icon">🚀</div>
+                <h3>Starter</h3>
+                <p class="plan-description">Ideal para pequenos negócios começando</p>
+                
+                <div class="plan-price">
+                    <span class="currency">R$</span>
+                    <span class="amount" data-monthly="49.90" data-annual="29.90">49,90</span>
+                    <span class="period">/mês</span>
+                </div>
+                
+                <ul class="plan-features">
+                    <li>✅ <strong>1 usuário</strong></li>
+                    <li>✅ Até 50 OS/mês</li>
+                    <li>✅ 100 clientes</li>
+                    <li>✅ 1GB armazenamento</li>
+                    <li>✅ Suporte por email</li>
+                    <li>✅ Backup 7 dias</li>
+                    <li>✅ Relatórios básicos</li>
+                    <li>❌ Acesso à API</li>
+                    <li>❌ White Label</li>
+                </ul>
+                
+                <button class="primary-btn full-width" onclick="selectPlan('starter')">Começar Grátis</button>
+                <p class="trial-info">30 dias grátis • Sem cartão</p>
+                
+                <!-- ADD-ONS -->
+                <div class="addons-section">
+                    <h4>💎 Adicione Extras:</h4>
+                    <label class="addon-item">
+                        <input type="checkbox" data-addon="extraUser" data-price="15.00">
+                        <span>+1 Usuário <small>(+R$ 15/mês)</small></span>
+                    </label>
+                    <label class="addon-item">
+                        <input type="checkbox" data-addon="extraStorage" data-price="10.00">
+                        <span>+1GB Storage <small>(+R$ 10/mês)</small></span>
+                    </label>
+                    <small style="color: var(--text-secondary);">Máximo: +2 usuários no Starter</small>
+                </div>
+            </div>
+
+            <!-- PROFESSIONAL PLAN (POPULAR) -->
+            <div class="pricing-card clay-card popular" data-plan="professional">
+                <div class="popular-badge">🌟 Mais Popular</div>
+                <div class="plan-icon">💼</div>
+                <h3>Professional</h3>
+                <p class="plan-description">Para empresas em crescimento</p>
+                
+                <div class="plan-price">
+                    <span class="currency">R$</span>
+                    <span class="amount" data-monthly="99.90" data-annual="59.90">99,90</span>
+                    <span class="period">/mês</span>
+                </div>
+                
+                <ul class="plan-features">
+                    <li>✅ <strong>3 usuários</strong></li>
+                    <li>✅ Até 200 OS/mês</li>
+                    <li>✅ 500 clientes</li>
+                    <li>✅ 5GB armazenamento</li>
+                    <li>✅ Suporte email + chat</li>
+                    <li>✅ Backup 30 dias</li>
+                    <li>✅ Relatórios avançados</li>
+                    <li>✅ <strong>Acesso à API</strong></li>
+                    <li>❌ White Label</li>
+                </ul>
+                
+                <button class="primary-btn full-width featured" onclick="selectPlan('professional')">Começar Grátis</button>
+                <p class="trial-info">30 dias grátis • Sem cartão</p>
+                
+                <div class="addons-section">
+                    <h4>💎 Adicione Extras:</h4>
+                    <label class="addon-item">
+                        <input type="checkbox" data-addon="extraUser" data-price="12.00">
+                        <span>+1 Usuário <small>(+R$ 12/mês)</small></span>
+                    </label>
+                    <label class="addon-item">
+                        <input type="checkbox" data-addon="aiFeatures" data-price="39.90">
+                        <span>🤖 IA Preditiva <small>(+R$ 39,90/mês)</small></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- BUSINESS PLAN -->
+            <div class="pricing-card clay-card" data-plan="business">
+                <div class="plan-icon">🏢</div>
+                <h3>Business</h3>
+                <p class="plan-description">Para empresas estabelecidas</p>
+                
+                <div class="plan-price">
+                    <span class="currency">R$</span>
+                    <span class="amount" data-monthly="199.90" data-annual="119.90">199,90</span>
+                    <span class="period">/mês</span>
+                </div>
+                
+                <ul class="plan-features">
+                    <li>✅ <strong>10 usuários</strong></li>
+                    <li>✅ Até 1000 OS/mês</li>
+                    <li>✅ 2000 clientes</li>
+                    <li>✅ 20GB armazenamento</li>
+                    <li>✅ Suporte 24/7</li>
+                    <li>✅ Backup 90 dias</li>
+                    <li>✅ BI + Dashboards</li>
+                    <li>✅ <strong>Acesso à API</strong></li>
+                    <li>✅ <strong>White Label</strong></li>
+                </ul>
+                
+                <button class="primary-btn full-width" onclick="selectPlan('business')">Começar Grátis</button>
+                <p class="trial-info">30 dias grátis • Sem cartão</p>
+            </div>
+
+            <!-- ENTERPRISE PLAN -->
+            <div class="pricing-card clay-card enterprise" data-plan="enterprise">
+                <div class="plan-icon">👑</div>
+                <h3>Enterprise</h3>
+                <p class="plan-description">Solução completa e personalizada</p>
+                
+                <div class="plan-price">
+                    <span class="amount" style="font-size: 2em;">Sob Consulta</span>
+                </div>
+                
+                <ul class="plan-features">
+                    <li>✅ <strong>Usuários ilimitados</strong></li>
+                    <li>✅ OS ilimitadas</li>
+                    <li>✅ Clientes ilimitados</li>
+                    <li>✅ Storage ilimitado</li>
+                    <li>✅ Suporte dedicado 24/7</li>
+                    <li>✅ Backup infinito</li>
+                    <li>✅ Features customizadas</li>
+                    <li>✅ <strong>SLA 99.9%</strong></li>
+                    <li>✅ <strong>Servidor dedicado</strong></li>
+                </ul>
+                
+                <button class="primary-btn full-width gold" onclick="contactSales()">Falar com Vendas</button>
+                <p class="trial-info">Consultoria gratuita</p>
+            </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="comparison-section">
+            <h2>📊 Comparação Detalhada de Planos</h2>
+            <div class="comparison-table clay-card">
+                <table class="clay-table">
+                    <thead>
+                        <tr>
+                            <th>Recursos</th>
+                            <th>Starter</th>
+                            <th>Professional</th>
+                            <th>Business</th>
+                            <th>Enterprise</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Usuários</strong></td>
+                            <td>1 (+2 com add-on)</td>
+                            <td>3 (ilimitado c/ add-on)</td>
+                            <td>10</td>
+                            <td>∞</td>
+                        </tr>
+                        <tr>
+                            <td><strong>OS/mês</strong></td>
+                            <td>50</td>
+                            <td>200</td>
+                            <td>1.000</td>
+                            <td>∞</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Clientes</strong></td>
+                            <td>100</td>
+                            <td>500</td>
+                            <td>2.000</td>
+                            <td>∞</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Storage</strong></td>
+                            <td>1GB</td>
+                            <td>5GB</td>
+                            <td>20GB</td>
+                            <td>∞</td>
+                        </tr>
+                        <tr>
+                            <td><strong>API Access</strong></td>
+                            <td>❌</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                        </tr>
+                        <tr>
+                            <td><strong>White Label</strong></td>
+                            <td>❌</td>
+                            <td>❌</td>
+                            <td>✅</td>
+                            <td>✅</td>
+                        </tr>
+                        <tr>
+                            <td><strong>IA Preditiva</strong></td>
+                            <td>❌</td>
+                            <td>Add-on R$ 39,90</td>
+                            <td>✅ Incluído</td>
+                            <td>✅ Customizado</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Suporte</strong></td>
+                            <td>Email</td>
+                            <td>Email + Chat</td>
+                            <td>24/7</td>
+                            <td>Dedicado</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Backup</strong></td>
+                            <td>7 dias</td>
+                            <td>30 dias</td>
+                            <td>90 dias</td>
+                            <td>Infinito</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- FAQ -->
+        <div class="pricing-faq">
+            <h2>❓ Perguntas Frequentes</h2>
+            <div class="faq-grid">
+                <div class="faq-item clay-card">
+                    <h4>🔄 Posso mudar de plano?</h4>
+                    <p>Sim! Você pode fazer upgrade ou downgrade a qualquer momento. No upgrade, você paga apenas a diferença proporcional.</p>
+                </div>
+                <div class="faq-item clay-card">
+                    <h4>💳 Quais formas de pagamento?</h4>
+                    <p>Aceitamos cartão de crédito, PIX, boleto bancário e transferência bancária para planos anuais.</p>
+                </div>
+                <div class="faq-item clay-card">
+                    <h4>🔒 Meus dados estão seguros?</h4>
+                    <p>100%! Utilizamos criptografia de ponta a ponta, backups automáticos e servidores em nuvem seguros.</p>
+                </div>
+                <div class="faq-item clay-card">
+                    <h4>📊 Posso exportar meus dados?</h4>
+                    <p>Sim, você pode exportar todos os seus dados em JSON/CSV a qualquer momento, sem custos adicionais.</p>
+                </div>
+                <div class="faq-item clay-card">
+                    <h4>🎁 O período de teste é gratuito?</h4>
+                    <p>Sim! 30 dias totalmente grátis, sem necessidade de cartão de crédito. Cancele quando quiser.</p>
+                </div>
+                <div class="faq-item clay-card">
+                    <h4>👥 Posso adicionar mais usuários?</h4>
+                    <p>Sim! Todos os planos permitem adicionar usuários extras. O custo varia conforme o plano escolhido.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Final -->
+        <div class="pricing-cta clay-card">
+            <h2>🚀 Pronto para começar?</h2>
+            <p>Junte-se a centenas de empresas que já transformaram sua gestão com TechAssist</p>
+            <button class="primary-btn large" onclick="selectPlan('professional')">Começar Teste Grátis de 30 Dias</button>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Assistance SaaS</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <h2>TechAssist</h2>
+    </div>
+    <nav>
+        <ul>
+            <button id="new-order-btn" class="primary-btn">
+                <span class="plus">+</span> <span data-i18n="newOrder">New Order</span>
+            </button>
+            </div>
+
+            <!-- List View -->
+            <div id="orders-list-view" class="large-card clay-card fade-in" style="margin-top: 20px;">
+                <div class="table-responsive">
+                    <table class="clay-table">
+                        <thead>
+                            <tr>
+                                <th data-i18n="orderId">ID</th>
+                                <th data-i18n="subject">Subject</th>
+                                <th data-i18n="client">Client</th>
+                                <th data-i18n="status">Status</th>
+                                <th data-i18n="actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-full-table-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Kanban Board View -->
+            <div id="orders-board-view" class="kanban-board hidden fade-in">
+                <div class="kanban-column" data-status="open">
+                    <div class="kanban-header status-open-bg">
+                        <h3 data-i18n="status_open">Open</h3>
+                        <span class="count" id="count-open">0</span>
+                    </div>
+                    <div class="kanban-items" id="board-open">
+                        <!-- Items -->
+                    </div>
+                </div>
+                <div class="kanban-column" data-status="pending">
+                    <div class="kanban-header status-pending-bg">
+                        <h3 data-i18n="status_pending">Pending</h3>
+                        <span class="count" id="count-pending">0</span>
+                    </div>
+                    <div class="kanban-items" id="board-pending">
+                        <!-- Items -->
+                    </div>
+                </div>
+                <div class="kanban-column" data-status="resolved">
+                    <div class="kanban-header status-resolved-bg">
+                        <h3 data-i18n="status_resolved">Resolved</h3>
+                        <span class="count" id="count-resolved">0</span>
+                    </div>
+                    <div class="kanban-items" id="board-resolved">
+                        <!-- Items -->
+                    </div>
+                </div>
+            </div>
+            </section>
+            <tr>
+                <th data-i18n="saleId">Sale ID</th>
+                <th data-i18n="date">Date</th>
+                <th data-i18n="client">Client</th>
+                <th data-i18n="items">Items</th>
+                <th data-i18n="total">Total</th>
+                <th data-i18n="paymentMethod">Payment</th>
+            </tr>
+            </thead>
+            <tbody id="sales-table-body">
+                <!-- Populated by JS -->
+                <tr>
+                    <th data-i18n="invoiceId">Invoice #</th>
+                    <th data-i18n="client">Client</th>
+                    <th data-i18n="issueDate">Issue Date</th>
+                    <th data-i18n="dueDate">Due Date</th>
+                    <th data-i18n="amount">Amount</th>
+                    <th data-i18n="status">Status</th>
+                    <th data-i18n="actions">Actions</th>
+                </tr>
+                </thead>
+            <tbody id="invoices-table-body">
+                <!-- Populated by JS -->
+            </tbody>
+            </table>
+            </div>
+            </div>
+            </section>
+
+            <!-- CLIENTS VIEW -->
+            <section id="view-clients" class="view-section hidden">
+                <div class="toolbar clay-card">
+                    <div class="header-left">
+                        <h3 data-i18n="clientList">Client List</h3>
+                    </div>
+                    <button id="new-client-btn" class="primary-btn">
+                        <span class="plus">+</span> <span data-i18n="newClient">New Client</span>
+                    </button>
+                </div>
+                <div class="clients-grid" id="clients-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </section>
+
+            <!-- INVENTORY VIEW -->
+            <section id="view-inventory" class="view-section hidden">
+                <div class="toolbar clay-card">
+                    <div class="header-left">
+                        <h3 data-i18n="inventoryList">Inventory List</h3>
+                    </div>
+                    <button id="new-item-btn" class="primary-btn">
+                        <span class="plus">+</span> <span data-i18n="newItem">New Item</span>
+                    </button>
+                </div>
+                <div class="large-card clay-card" style="margin-top: 20px;">
+                    <div class="table-responsive">
+                        <table class="clay-table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="itemName">Item Name</th>
+                                    <th data-i18n="sku">SKU</th>
+                                    <th data-i18n="quantity">Quantity</th>
+                                    <th data-i18n="price">Price</th>
+                                    <th data-i18n="actions">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventory-table-body">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EXPENSES VIEW -->
+            <section id="view-expenses" class="view-section hidden">
+                <div class="toolbar clay-card">
+                    <div class="header-left">
+                        <h3 data-i18n="expensesList">Expenses List</h3>
+                    </div>
+                    <button id="new-expense-btn" class="primary-btn">
+                        <span class="plus">+</span> <span data-i18n="newExpense">New Expense</span>
+                    </button>
+                </div>
+                <div class="large-card clay-card" style="margin-top: 20px;">
+                    <div class="table-responsive">
+                        <table class="clay-table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="description">Description</th>
+                                    <th data-i18n="category">Category</th>
+                                    <th data-i18n="date">Date</th>
+                                    <th data-i18n="amount">Amount</th>
+                                    <th data-i18n="actions">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expenses-table-body">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SETTINGS VIEW -->
+            <section id="view-settings" class="view-section hidden">
+                <div class="settings-container">
+                    <div class="clay-card settings-card">
+                        <h3 data-i18n="profileSettings">Profile Settings</h3>
+                        <form class="settings-form">
+                            <div class="form-group">
+                                <label data-i18n="fullName">Full Name</label>
+                                <input type="text" class="clay-input" value="John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="email">Email</label>
+                                <input type="email" class="clay-input" value="john@techassist.com">
+                            </div>
+                            <button type="button" class="primary-btn" data-i18n="saveChanges">Save Changes</button>
+                        </form>
+                    </div>
+
+                    <div class="clay-card settings-card">
+                        <h3 data-i18n="appSettings">App Settings</h3>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4 data-i18n="emailNotifications">Email Notifications</h4>
+                                <p data-i18n="emailNotifDesc">Receive emails about new tickets.</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <div class="setting-info">
+                                <h4 data-i18n="autoRefresh">Auto Refresh</h4>
+                                <p data-i18n="autoRefreshDesc">Automatically refresh dashboard data.</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            </main>
+            </div>
+
+            <!-- COMPREHENSIVE SERVICE ORDER MODAL -->
+            <div id="order-modal" class="modal-overlay hidden">
+                <div class="modal-content clay-card large-modal">
+                    <div class="modal-header">
+                        <h3 data-i18n="newOrder">New Service Order</h3>
+                        <button class="close-modal" data-modal="order-modal">&times;</button>
+                    </div>
+                    <form id="new-order-form" class="scrollable-form">
+
+                        <!-- 1. Client Data -->
+                        <div class="form-section">
+                            <h4 data-i18n="clientData">1. Client Data</h4>
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label data-i18n="client">Client</label>
+                                    <select id="order-client" class="clay-input" required>
+                                        <option value="">Select client...</option>
+                                        <!-- Populated by JS -->
+                                    </select>
+                                </div>
+                                <div class="form-group checkbox-group">
+                                    <input type="checkbox" id="needs-delivery">
+                                    <label for="needs-delivery" data-i18n="needsDelivery">Needs Delivery</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Device Data -->
+                        <div class="form-section">
+                            <h4 data-i18n="deviceData">2. Device Data</h4>
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label data-i18n="brand">Brand *</label>
+                                    <select id="device-brand" class="clay-input" required>
+                                        <option value="">Select brand</option>
+                                        <option value="Apple">Apple</option>
+                                        <option value="Samsung">Samsung</option>
+                                        <option value="Xiaomi">Xiaomi</option>
+                                        <option value="Motorola">Motorola</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="model">Model *</label>
+                                    <input type="text" id="device-model" class="clay-input" placeholder="e.g. iPhone 13"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="serial">Serial</label>
+                                    <input type="text" id="device-serial" class="clay-input">
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="imei">IMEI</label>
+                                    <input type="text" id="device-imei" class="clay-input">
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="color">Color</label>
+                                    <input type="text" id="device-color" class="clay-input">
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="capacity">Capacity (GB)</label>
+                                    <input type="text" id="device-capacity" class="clay-input" placeholder="e.g. 128GB">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. Security -->
+                        <div class="form-section">
+                            <h4 data-i18n="security">3. Security</h4>
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label data-i18n="password">Numeric Password</label>
+                                    <input type="text" id="device-password" class="clay-input" placeholder="123456">
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="patternLock">Pattern Lock</label>
+                                    <div class="pattern-lock-container">
+                                        <div class="pattern-grid">
+                                            <div class="dot" data-id="1"></div>
+                                            <div class="dot" data-id="2"></div>
+                                            <div class="dot" data-id="3"></div>
+                                            <div class="dot" data-id="4"></div>
+                                            <div class="dot" data-id="5"></div>
+                                            <div class="dot" data-id="6"></div>
+                                            <div class="dot" data-id="7"></div>
+                                            <div class="dot" data-id="8"></div>
+                                            <div class="dot" data-id="9"></div>
+                                        </div>
+                                        <button type="button" class="text-btn small" id="clear-pattern"
+                                            data-i18n="clear">Clear</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4. Services -->
+                        <div class="form-section">
+                            <h4 data-i18n="services">4. Services to be Performed *</h4>
+                            <div class="services-list clay-card-inset">
+                                <label><input type="checkbox" value="Budget"> <span data-i18n="svc_budget">Evaluation
+                                        for
+                                        budget</span></label>
+                                <label><input type="checkbox" value="Screen"> <span
+                                        data-i18n="svc_screen">Screen/Display
+                                        Replacement</span></label>
+                                <label><input type="checkbox" value="Glass"> <span data-i18n="svc_glass">Glass
+                                        Replacement</span></label>
+                                <label><input type="checkbox" value="Battery"> <span data-i18n="svc_battery">Battery
+                                        Replacement</span></label>
+                                <label><input type="checkbox" value="ChargingPort"> <span
+                                        data-i18n="svc_charging">Charging Port
+                                        Replacement</span></label>
+                                <label><input type="checkbox" value="Motherboard"> <span
+                                        data-i18n="svc_board">Motherboard
+                                        Repair</span></label>
+                                <label><input type="checkbox" value="CameraRear"> <span data-i18n="svc_cam_rear">Rear
+                                        Camera
+                                        Replacement</span></label>
+                                <label><input type="checkbox" value="CameraFront"> <span data-i18n="svc_cam_front">Front
+                                        Camera
+                                        Replacement</span></label>
+                                <label><input type="checkbox" value="Speaker"> <span data-i18n="svc_speaker">Speaker
+                                        Replacement</span></label>
+                                <label><input type="checkbox" value="WaterDamage"> <span data-i18n="svc_water">Water
+                                        Damage
+                                        Repair</span></label>
+                                <label><input type="checkbox" value="Software"> <span data-i18n="svc_software">Software
+                                        Update/Reset</span></label>
+                                <label><input type="checkbox" value="Backup"> <span data-i18n="svc_backup">Backup & Data
+                                        Transfer</span></label>
+                                <label><input type="checkbox" value="Other"> <span data-i18n="svc_other">Other
+                                        Services</span></label>
+                            </div>
+                            <div class="form-group" style="margin-top: 10px;">
+                                <label data-i18n="observations">Additional Observations</label>
+                                <textarea id="order-observations" class="clay-input" rows="3"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- 5. Chip & 6. Deadline -->
+                        <div class="form-section">
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <h4 data-i18n="chip">5. Chip</h4>
+                                    <div class="radio-group">
+                                        <label><input type="radio" name="chip" value="yes"> <span
+                                                data-i18n="withChip">With
+                                                Chip</span></label>
+                                        <label><input type="radio" name="chip" value="no" checked> <span
+                                                data-i18n="withoutChip">Without Chip</span></label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <h4 data-i18n="deadline">6. Deadline</h4>
+                                    <input type="datetime-local" id="order-deadline" class="clay-input">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 7. Checklist -->
+                        <div class="form-section">
+                            <h4 data-i18n="checklist">7. Initial Checklist</h4>
+                            <div class="grid-4">
+                                <div class="checklist-item">
+                                    <span data-i18n="wet">Wet?</span>
+                                    <div class="radio-group small">
+                                        <label><input type="radio" name="check_wet" value="yes"> Y</label>
+                                        <label><input type="radio" name="check_wet" value="no" checked> N</label>
+                                    </div>
+                                </div>
+                                <div class="checklist-item">
+                                    <span data-i18n="charging">Charging?</span>
+                                    <div class="radio-group small">
+                                        <label><input type="radio" name="check_charge" value="yes" checked> Y</label>
+                                        <label><input type="radio" name="check_charge" value="no"> N</label>
+                                    </div>
+                                </div>
+                                <div class="checklist-item">
+                                    <span data-i18n="turnsOn">Turns On?</span>
+                                    <div class="radio-group small">
+                                        <label><input type="radio" name="check_power" value="yes" checked> Y</label>
+                                        <label><input type="radio" name="check_power" value="no"> N</label>
+                                    </div>
+                                </div>
+                                <div class="checklist-item">
+                                    <span data-i18n="housingDamage">Housing Damage?</span>
+                                    <div class="radio-group small">
+                                        <label><input type="radio" name="check_damage" value="yes"> Y</label>
+                                        <label><input type="radio" name="check_damage" value="no" checked> N</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 11. Photos & Videos (Simplified) -->
+                        <div class="form-section">
+                            <h4 data-i18n="media">11. Photos & Videos</h4>
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label data-i18n="photoIn">Photo - In</label>
+                                    <input type="file" class="clay-input">
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="photoOut">Photo - Out</label>
+                                    <input type="file" class="clay-input">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 14. Budget & Payment -->
+                        <div class="form-section">
+                            <h4 data-i18n="budgetPayment">14. Budget & Payment</h4>
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label data-i18n="serviceValue">Service Value (R$)</label>
+                                    <input type="number" id="val-service" class="clay-input" value="0.00" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="productsValue">Products Value (R$)</label>
+                                    <input type="number" id="val-products" class="clay-input" value="0.00" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="discount">Discount (R$)</label>
+                                    <input type="number" id="val-discount" class="clay-input" value="0.00" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="totalValue">Total (R$)</label>
+                                    <input type="number" id="val-total" class="clay-input highlight-input" value="0.00"
+                                        readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-top: 15px;">
+                                <label data-i18n="paymentMethod">Payment Method</label>
+                                <select id="payment-method" class="clay-input">
+                                    <option value="pending">Pending</option>
+                                    <option value="pix">PIX</option>
+                                    <option value="cash">Cash</option>
+                                    <option value="debit">Debit Card</option>
+                                    <option value="credit">Credit Card</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label data-i18n="printType">Print Type</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="print" value="a4" checked> A4</label>
+                                    <label><input type="radio" name="print" value="thermal"> Thermal</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="secondary-btn close-modal" data-modal="order-modal"
+                                data-i18n="cancel">Cancel</button>
+                            <button type="submit" class="primary-btn" data-i18n="generateOrder">Generate Service
+                                Order</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- CLIENT MODAL -->
+            <div id="client-modal" class="modal-overlay hidden">
+                <div class="modal-content clay-card">
+                    <div class="modal-header">
+                        <h3 data-i18n="newClient">New Client</h3>
+                        <button class="close-modal" data-modal="client-modal">&times;</button>
+                    </div>
+                    <form id="new-client-form">
+                        <div class="form-group">
+                            <label data-i18n="companyName">Company Name</label>
+                            <input type="text" id="client-company" class="clay-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="contactPerson">Contact Person</label>
+                            <input type="text" id="client-contact" class="clay-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="email">Email</label>
+                            <input type="email" id="client-email" class="clay-input" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="secondary-btn close-modal" data-modal="client-modal"
+                                data-i18n="cancel">Cancel</button>
+                            <button type="submit" class="primary-btn" data-i18n="save">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- INVENTORY MODAL -->
+            <div id="inventory-modal" class="modal-overlay hidden">
+                <div class="modal-content clay-card">
+                    <div class="modal-header">
+                        <h3 data-i18n="newItem">New Item</h3>
+                        <button class="close-modal" data-modal="inventory-modal">&times;</button>
+                    </div>
+                    <form id="new-item-form">
+                        <div class="form-group">
+                            <label data-i18n="itemName">Item Name</label>
+                            <input type="text" id="item-name" class="clay-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="sku">SKU</label>
+                            <input type="text" id="item-sku" class="clay-input" required>
+                        </div>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label data-i18n="quantity">Quantity</label>
+                                <input type="number" id="item-quantity" class="clay-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="price">Price</label>
+                                <input type="number" id="item-price" class="clay-input" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="secondary-btn close-modal" data-modal="inventory-modal"
+                                data-i18n="cancel">Cancel</button>
+                            <button type="submit" class="primary-btn" data-i18n="save">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- EXPENSE MODAL -->
+            <div id="expense-modal" class="modal-overlay hidden">
+                <div class="modal-content clay-card">
+                    <div class="modal-header">
+                        <h3 data-i18n="newExpense">New Expense</h3>
+                        <button class="close-modal" data-modal="expense-modal">&times;</button>
+                    </div>
+                    <form id="new-expense-form">
+                        <div class="form-group">
+                            <label data-i18n="description">Description</label>
+                            <input type="text" id="expense-description" class="clay-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="category">Category</label>
+                            <select id="expense-category" class="clay-input">
+                                <option value="Utilities">Utilities</option>
+                                <option value="Rent">Rent</option>
+                                <option value="Supplies">Supplies</option>
+                                <option value="Salaries">Salaries</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label data-i18n="date">Date</label>
+                                <input type="date" id="expense-date" class="clay-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="amount">Amount</label>
+                                <input type="number" id="expense-amount" class="clay-input" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="secondary-btn close-modal" data-modal="expense-modal"
+                                data-i18n="cancel">Cancel</button>
+                            <button type="submit" class="primary-btn" data-i18n="save">Save</button>
+                            <label><input type="radio" name="check_wet" value="yes"> Y</label>
+                            <label><input type="radio" name="check_wet" value="no" checked> N</label>
+                        </div>
+                </div>
+                <div class="checklist-item">
+                    <span data-i18n="charging">Charging?</span>
+                    <div class="radio-group small">
+                        <label><input type="radio" name="check_charge" value="yes" checked> Y</label>
+                        <label><input type="radio" name="check_charge" value="no"> N</label>
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <span data-i18n="turnsOn">Turns On?</span>
+                    <div class="radio-group small">
+                        <label><input type="radio" name="check_power" value="yes" checked> Y</label>
+                        <label><input type="radio" name="check_power" value="no"> N</label>
+                    </div>
+                </div>
+                <div class="checklist-item">
+                    <span data-i18n="housingDamage">Housing Damage?</span>
+                    <div class="radio-group small">
+                        <label><input type="radio" name="check_damage" value="yes"> Y</label>
+                        <label><input type="radio" name="check_damage" value="no" checked> N</label>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <!-- 11. Photos & Videos (Simplified) -->
+            <div class="form-section">
+                <h4 data-i18n="media">11. Photos & Videos</h4>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label data-i18n="photoIn">Photo - In</label>
+                        <input type="file" class="clay-input">
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="photoOut">Photo - Out</label>
+                        <input type="file" class="clay-input">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 14. Budget & Payment -->
+            <div class="form-section">
+                <h4 data-i18n="budgetPayment">14. Budget & Payment</h4>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label data-i18n="serviceValue">Service Value (R$)</label>
+                        <input type="number" id="val-service" class="clay-input" value="0.00" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="productsValue">Products Value (R$)</label>
+                        <input type="number" id="val-products" class="clay-input" value="0.00" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="discount">Discount (R$)</label>
+                        <input type="number" id="val-discount" class="clay-input" value="0.00" step="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label data-i18n="totalValue">Total (R$)</label>
+                        <input type="number" id="val-total" class="clay-input highlight-input" value="0.00" readonly>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 15px;">
+                    <label data-i18n="paymentMethod">Payment Method</label>
+                    <select id="payment-method" class="clay-input">
+                        <option value="pending">Pending</option>
+                        <option value="pix">PIX</option>
+                        <option value="cash">Cash</option>
+                        <option value="debit">Debit Card</option>
+                        <option value="credit">Credit Card</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label data-i18n="printType">Print Type</label>
+                    <div class="radio-group">
+                        <label><input type="radio" name="print" value="a4" checked> A4</label>
+                        <label><input type="radio" name="print" value="thermal"> Thermal</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="secondary-btn close-modal" data-modal="order-modal"
+                    data-i18n="cancel">Cancel</button>
+                <button type="submit" class="primary-btn" data-i18n="generateOrder">Generate Service Order</button>
+            </div>
+            </form>
+            </div>
+            </div>
+
+            <!-- CLIENT MODAL -->
+            <div id="client-modal" class="modal-overlay hidden">
+                <div class="modal-content clay-card">
+                    <div class="modal-header">
+                        <h3 data-i18n="newClient">New Client</h3>
+                        <button class="close-modal" data-modal="client-modal">&times;</button>
+                    </div>
+                    <form id="new-client-form">
+                        <div class="form-group">
+                            <label data-i18n="companyName">Company Name</label>
+                            <input type="text" id="client-company" class="clay-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="contactPerson">Contact Person</label>
+                            <input type="text" id="client-contact" class="clay-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="email">Email</label>
+                            <input type="email" id="client-email" class="clay-input" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="secondary-btn close-modal" data-modal="client-modal"
+                                data-i18n="cancel">Cancel</button>
+                            <button type="submit" class="primary-btn" data-i18n="save">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- INVENTORY MODAL -->
+            <div id="inventory-modal" class="modal-overlay hidden">
+                <div class="modal-content clay-card">
+                    <div class="modal-header">
+                        <h3 data-i18n="newItem">New Item</h3>
+                        <button class="close-modal" data-modal="inventory-modal">&times;</button>
+                    </div>
+                    <form id="new-item-form">
+                        <div class="form-group">
+                            <label data-i18n="itemName">Item Name</label>
+                            <input type="text" id="item-name" class="clay-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="sku">SKU</label>
+                            <input type="text" id="item-sku" class="clay-input" required>
+                        </div>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label data-i18n="quantity">Quantity</label>
+                                <input type="number" id="item-quantity" class="clay-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="price">Price</label>
+                                <input type="number" id="item-price" class="clay-input" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="secondary-btn close-modal" data-modal="inventory-modal"
+                                data-i18n="cancel">Cancel</button>
+                            <button type="submit" class="primary-btn" data-i18n="save">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- EXPENSE MODAL -->
+            <div id="expense-modal" class="modal-overlay hidden">
+                <div class="modal-content clay-card">
+                    <div class="modal-header">
+                        <h3 data-i18n="newExpense">New Expense</h3>
+                        <button class="close-modal" data-modal="expense-modal">&times;</button>
+                    </div>
+                    <form id="new-expense-form">
+                        <div class="form-group">
+                            <label data-i18n="description">Description</label>
+                            <input type="text" id="expense-description" class="clay-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-i18n="category">Category</label>
+                            <select id="expense-category" class="clay-input">
+                                <option value="Utilities">Utilities</option>
+                                <option value="Rent">Rent</option>
+                                <option value="Supplies">Supplies</option>
+                                <option value="Salaries">Salaries</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label data-i18n="date">Date</label>
+                                <input type="date" id="expense-date" class="clay-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="amount">Amount</label>
+                                <input type="number" id="expense-amount" class="clay-input" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="secondary-btn close-modal" data-modal="expense-modal"
+                                data-i18n="cancel">Cancel</button>
+                            <button type="submit" class="primary-btn" data-i18n="save">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- SALE MODAL -->
+            <div id="sale-modal" class="modal-overlay hidden">
+                <div class="modal-content clay-card large-modal">
+                    <div class="modal-header">
+                        <div>
+                            <h3 data-i18n="saleTitle">Product Sale</h3>
+                            <p class="subtitle" data-i18n="saleSubtitle">Registration of product and accessory sales</p>
+                        </div>
+                        <button class="close-modal" data-modal="sale-modal">&times;</button>
+                    </div>
+                    <form id="new-sale-form" class="scrollable-form">
+
+                        <!-- 1. Client Data -->
+                        <div class="form-section">
+                            <h4 data-i18n="clientData">1. Client Data</h4>
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label data-i18n="client">Client</label>
+                                    <select id="sale-client" class="clay-input" required>
+                                        <option value="">Select client...</option>
+                                        <!-- Populated by JS -->
+                                    </select>
+                                </div>
+                                <div class="form-group checkbox-group"
+                                    style="justify-content: flex-start; margin-top: 30px;">
+                                    <input type="checkbox" id="sale-delivery">
+                                    <label for="sale-delivery" data-i18n="needsDelivery">Needs Delivery</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Products -->
+                        <div class="form-section">
+                            <h4 data-i18n="productsSold">Products Sold</h4>
+                            <div class="grid-3">
+                                <div class="form-group">
+                                    <label data-i18n="selectProduct">Select Product</label>
+                                    <select id="sale-product-select" class="clay-input">
+                                        <option value="" data-i18n="chooseProduct">Choose a product</option>
+                                        <!-- Populated by JS from inventory -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="quantity">Quantity</label>
+                                    <input type="number" id="sale-product-qty" class="clay-input" value="1" min="1"
+                                        style="width: 100%;">
+                                </div>
+                                <div class="form-group" style="display: flex; align-items: flex-end;">
+                                    <button type="button" id="add-product-btn" class="primary-btn"
+                                        data-i18n="addProduct" style="width: 100%;">Add Product</button>
+                                </div>
+                            </div>
+
+                            <div class="product-list-container clay-card-inset"
+                                style="margin-top: 15px; padding: 10px; background: var(--bg-secondary); border-radius: 12px;">
+                                <table class="clay-table" style="margin: 0;">
+                                    <thead>
+                                        <tr>
+                                            <th data-i18n="itemName">Item</th>
+                                            <th data-i18n="quantity">Qty</th>
+                                            <th data-i18n="price">Price</th>
+                                            <th data-i18n="total">Total</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="sale-products-list">
+                                        <tr>
+                                            <td colspan="5" style="text-align: center; color: var(--text-secondary);"
+                                                data-i18n="noProductsAdded">No products added</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- 3. Budget & Payment -->
+                        <div class="form-section">
+                            <h4 data-i18n="budgetPayment">Budget & Payment</h4>
+                            <div class="grid-2">
+                                <div class="form-group">
+                                    <label data-i18n="soldProductsValue">Value of Sold Products</label>
+                                    <input type="text" id="sale-subtotal" class="clay-input" value="R$ 0.00" readonly>
+                                    <small style="color: var(--text-secondary); font-size: 0.8em;"
+                                        data-i18n="onlySoldProducts">Only sold products</small>
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="totalSaleValue">Total Sale Value</label>
+                                    <input type="text" id="sale-total" class="clay-input highlight-input"
+                                        value="R$ 0.00" readonly style="font-weight: 600; font-size: 1.1em;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4. Payment Details -->
+                        <div class="form-section">
+                            <h4 data-i18n="paymentDetails">Payment Details</h4>
+                            <p style="margin-bottom: 15px; color: var(--text-secondary);" data-i18n="paymentDesc">
+                                Specify
+                                amounts paid in each method</p>
+                            <div class="grid-4">
+                                <div class="form-group">
+                                    <label>💳 <span data-i18n="valPix">Pix</span></label>
+                                    <input type="number" id="pay-pix" class="clay-input payment-input"
+                                        placeholder="0.00" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label>💵 <span data-i18n="valCash">Cash</span></label>
+                                    <input type="number" id="pay-cash" class="clay-input payment-input"
+                                        placeholder="0.00" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label>💳 <span data-i18n="valDebit">Debit</span></label>
+                                    <input type="number" id="pay-debit" class="clay-input payment-input"
+                                        placeholder="0.00" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label>💳 <span data-i18n="valCredit">Credit</span></label>
+                                    <input type="number" id="pay-credit" class="clay-input payment-input"
+                                        placeholder="0.00" step="0.01">
+                                </div>
+                            </div>
+                            <div class="grid-2" style="margin-top: 15px;">
+                                <div class="form-group">
+                                    <label data-i18n="discountType">Discount Type</label>
+                                    <select id="sale-discount-type" class="clay-input">
+                                        <option value="none" data-i18n="noDiscount">No discount</option>
+                                        <option value="percent">%</option>
+                                        <option value="fixed">R$</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label><span data-i18n="discount">Discount</span></label>
+                                    <input type="number" id="sale-discount-value" class="clay-input" placeholder="0.00"
+                                        step="0.01">
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-top: 15px;">
+                                <label data-i18n="totalPayments">Total Payments</label>
+                                <input type="text" id="total-paid-display" class="clay-input" value="R$ 0.00" readonly
+                                    style="font-weight: 600;">
+                            </div>
+                        </div>
+
+                        <!-- 5. Farewell & Print -->
+                        <div class="form-section">
+                            <div class="form-group">
+                                <label data-i18n="farewellMsg">Farewell Message</label>
+                                <textarea id="sale-farewell" class="clay-input" rows="2"
+                                    maxlength="200">Volte sempre! Agradecemos sua preferência. 💚</textarea>
+                                <small style="float: right;"><span id="farewell-count">45</span>/200</small>
+                            </div>
+                            <div class="form-group" style="margin-top: 15px;">
+                                <label data-i18n="printType">Print Type</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="sale-print" value="a4" checked> 📄 <span
+                                            data-i18n="a4Paper">A4 Paper</span></label>
+                                    <label><input type="radio" name="sale-print" value="thermal"> 🧾 <span
+                                            data-i18n="thermalPrinter">Thermal Printer</span></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="secondary-btn close-modal" data-modal="sale-modal"
+                                data-i18n="cancel">Cancel</button>
+                            <button type="submit" class="primary-btn" data-i18n="generateSale">Generate Sale</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- DETAILS MODAL -->
+            <div id="details-modal" class="modal-overlay hidden">
+                <div class="modal-content clay-card large-modal">
+                    <div class="modal-header">
+                        <h3 id="details-title">Details</h3>
+                        <button class="close-modal" data-modal="details-modal">&times;</button>
+                    </div>
+                    <div id="details-content" class="scrollable-content" style="padding: 20px;">
+                        <!-- Populated by JS -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="secondary-btn close-modal" data-modal="details-modal"
+                            data-i18n="close">Close</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="toast-container"></div>
+            <script src="script.js"></script>
+            </body>
+
+</html>
