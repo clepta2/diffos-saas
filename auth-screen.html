@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login – TechAssist</title>
+    <!-- Re‑use the same CSS and fonts as the main page -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-left">
+            <h1 class="brand-large">🛠️ TechAssist</h1>
+            <p class="tagline">Gestão Profissional para Assistências Técnicas</p>
+        </div>
+        <div class="auth-right">
+            <div class="auth-box clay-card">
+                <h2 class="text-center mb-4">Entrar</h2>
+                <form id="login-form" class="flex flex-col gap-4">
+                    <div class="form-group">
+                        <label for="login-email">📧 E‑mail</label>
+                        <input type="email" id="login-email" class="clay-input" placeholder="seu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">🔒 Senha</label>
+                        <input type="password" id="login-password" class="clay-input" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-full">Entrar</button>
+                </form>
+                <div class="divider"><span>ou</span></div>
+                <p class="text-center">Ainda não tem conta? <a href="#" class="link" id="go-signup">Cadastre‑se</a></p>
+            </div>
+        </div>
+    </div>
+    <script src="auth.js"></script>
+</body>
+
+</html>
